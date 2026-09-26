@@ -38,7 +38,7 @@ target_link_libraries(your_firmware PRIVATE stm_sdram stm_flash)
 | 0x010A | STM_ERR_VERIFY | 数据校验失败 |
 | 0x010B | STM_ERR_CANCELLED | 调用者取消 |
 
-公共错误保留 `0x0100–0x0FFF`。`0x1000–0x10FF` 分配给 Flash 专用错误；实际定义在 `stm_flash.h`。后续组件必须登记新的不重叠区间。返回码描述一次操作的结果，不是数据长度、HAL 枚举或芯片状态寄存器。
+公共错误保留 `0x0100–0x0FFF`。`0x1000–0x10FF` 分配给 Flash 专用错误；实际定义在 `stm_flash.h`。`0x1100–0x11FF` 分配给 ESP-AT 专用错误：`ESP_AT_ERR_PROTO=0x1101`（协议格式无效）、`ESP_AT_ERR_RESP=0x1102`（模块返回 ERROR/FAIL），定义在 `esp_at_types.h`。`stm_ota` 当前仅复用公共错误，不占用专用区间。后续组件必须登记新的不重叠区间。返回码描述一次操作的结果，不是数据长度、HAL 枚举或芯片状态寄存器。
 
 `tests/test_allocator.h` 仅用于无 C 运行库的 ARM 模拟测试，提供分配失败注入和泄漏/重复释放检查，不得加入产品固件。
 
